@@ -1,25 +1,540 @@
 <!DOCTYPE html>
-<html lang="zh"><head>
+<html lang="zh">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<meta http-equiv="refresh" content="60">
-<title>爆款雷达 · 还在加载</title>
+<title>Ann Courses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
-       background:#0a0d13;color:#e8e8ea;text-align:center;padding:24px;
-       font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
-  .spin{width:34px;height:34px;margin:0 auto 26px;border:3px solid #2a2f3a;
-        border-top-color:#ff785a;border-radius:50%;animation:s 1s linear infinite}
-  @keyframes s{to{transform:rotate(360deg)}}
-  h1{font-size:23px;margin:0 0 14px;font-weight:600}
-  p{margin:8px 0;color:#9a9aa2;font-size:15px;line-height:1.75}
-  .hint{margin-top:30px;font-size:13.5px;color:#6e6e78}
-  @media(prefers-reduced-motion:reduce){.spin{animation:none}}
-</style></head><body><div>
-  <div class="spin"></div>
-  <h1>你的页面还在加载中,请稍等</h1>
-  <p>第一次大约需要 20-60 分钟。</p>
-  <p>这一页会自己刷新,你可以先去忙别的。</p>
-  <p class="hint">等很久都没变?回到安装 SOP 第 7 步,<br>到仓库的 Actions 看 Sync Content 有没有跑完。</p>
-</div></body></html>
+  :root {
+    --bg: #0a0d13;
+    --card: #11151d;
+    --card-hi: #151a24;
+    --border: #1d2430;
+    --border-hi: #2c3546;
+    --text: #e8ecf3;
+    --muted: #8a94a6;
+    --faint: #5b6577;
+    --accent: #5ea1ff;
+    --green: #3fd68f;
+    --orange: #f0a33f;
+    --pink: #ff6b9d;
+    --red: #ff5c5c;
+    --fire1: #ff8a3d;
+    --fire2: #ff4d6d;
+    --font: 'Inter', -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --disp: 'Space Grotesk', 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scrollbar-color: #232c3b var(--bg); }
+  body { background: var(--bg); color: var(--text); font-family: var(--font);
+    -webkit-font-smoothing: antialiased; }
+  ::selection { background: rgba(94,161,255,.3); }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #232c3b; border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: #2c3546; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+  .ic { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round; fill: none; flex: none; }
+
+  header { position: sticky; top: 0; z-index: 50; background: rgba(10,13,19,.86);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border); padding: 13px 20px 12px; }
+  .hrow { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; max-width: 1440px; margin: 0 auto; }
+  .brand { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+  .mark { width: 31px; height: 31px; border-radius: 9px; display: grid; place-items: center;
+    background: linear-gradient(135deg, var(--fire1), var(--fire2));
+    box-shadow: 0 4px 16px rgba(255,92,80,.35); }
+  .mark .ic { width: 17px; height: 17px; color: #fff; }
+  h1 { font-family: var(--disp); font-size: 16.5px; font-weight: 700; letter-spacing: .2px; white-space: nowrap; line-height: 1.15; }
+  h1 small { display: block; color: var(--faint); font-family: var(--font); font-weight: 400;
+    font-size: 10.5px; letter-spacing: 0; }
+
+  .search { position: relative; }
+  .search > .ic { position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    color: var(--faint); width: 13.5px; pointer-events: none; }
+  input#fSearch { background: var(--card); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 8px 12px 8px 32px; font-size: 13px; font-family: var(--font);
+    width: 200px; transition: border-color .18s, background .18s; }
+  input#fSearch:hover { border-color: var(--border-hi); }
+  input#fSearch:focus { border-color: var(--accent); outline: none; }
+  input#fSearch::placeholder { color: var(--faint); }
+
+  select, .btn { background: var(--card); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 8px 11px; font-size: 13px; font-family: var(--font);
+    cursor: pointer; transition: border-color .18s, background .18s, color .18s;
+    display: inline-flex; align-items: center; gap: 6px; }
+  select:hover, .btn:hover { border-color: var(--border-hi); background: var(--card-hi); }
+  .btn:active { transform: scale(.97); }
+  .btn.on { border-color: var(--accent); color: var(--accent); background: rgba(94,161,255,.08); }
+
+  .tabs { display: flex; gap: 7px; flex-wrap: wrap; max-width: 1440px; margin: 12px auto 0; }
+  .tab { display: inline-flex; align-items: center; gap: 7px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 999px; padding: 6.5px 14px;
+    font-size: 13px; color: var(--muted); cursor: pointer; user-select: none;
+    transition: border-color .18s, background .18s, color .18s, transform .18s; }
+  .tab:hover { border-color: var(--border-hi); color: var(--text); }
+  .tab .cnt { font-family: var(--disp); font-weight: 600; font-size: 11px;
+    background: rgba(255,255,255,.06); padding: 1.5px 7.5px; border-radius: 99px;
+    font-variant-numeric: tabular-nums; }
+  .tab.on { color: var(--text);
+    background: linear-gradient(135deg, rgba(255,138,61,.15), rgba(255,77,109,.15));
+    border-color: rgba(255,120,90,.45); }
+  .tab.on .cnt { background: rgba(255,120,90,.25); }
+  body.dragging .tab.droppable { border-style: dashed; border-color: var(--accent); }
+  .tab.over { background: rgba(94,161,255,.22); color: var(--text); transform: scale(1.07); }
+
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; max-width: 1440px; margin: 9px auto 0; align-items: center; }
+  .chips .lbl { font-size: 12px; color: var(--faint); margin-right: 2px; }
+  .chip2 { display: inline-flex; align-items: center; gap: 5.5px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 999px; padding: 4.5px 12px;
+    font-size: 12px; color: var(--muted); cursor: pointer; user-select: none;
+    transition: border-color .18s, color .18s, background .18s;
+    font-variant-numeric: tabular-nums; }
+  .chip2 .ic { width: 12.5px; height: 12.5px; }
+  .chip2:hover { border-color: var(--border-hi); color: var(--text); }
+  .chip2.on { border-color: rgba(240,163,63,.6); color: var(--orange); background: rgba(240,163,63,.08); }
+
+  main { max-width: 1440px; margin: 22px auto; padding: 0 20px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(305px, 1fr)); gap: 18px; }
+
+  .card { position: relative; background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
+    transition: transform .22s cubic-bezier(.2,.7,.3,1), border-color .22s, box-shadow .22s;
+    animation: fadeUp .45s cubic-bezier(.2,.7,.3,1) both; }
+  .card:hover { transform: translateY(-3px); border-color: var(--border-hi);
+    box-shadow: 0 12px 32px rgba(0,0,0,.45); }
+  .card.outlier::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--fire1), var(--fire2)); z-index: 2; }
+  .card[draggable] { cursor: grab; }
+  .card.lifting { opacity: .45; }
+  .card.saved { border-color: var(--green); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  .embed { position: relative; width: 100%; aspect-ratio: 4/5; background: #080b10; }
+  .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .embed .ph { position: absolute; inset: 0; display: grid; place-items: center;
+    background: linear-gradient(110deg, #0b0e15 8%, #121826 18%, #0b0e15 33%);
+    background-size: 200% 100%; animation: shimmer 1.5s linear infinite; }
+  .embed .ph .ic { width: 30px; height: 30px; color: #2a3342; stroke-width: 1.6; }
+  @keyframes shimmer { to { background-position-x: -200%; } }
+
+  .meta { padding: 13px 15px 14px; display: flex; flex-direction: column; gap: 9px; }
+  .row1 { display: flex; align-items: center; gap: 7px; font-size: 13px; flex-wrap: wrap; }
+  .handle { color: #3a4456; cursor: grab; display: inline-flex; }
+  .handle .ic { width: 13px; height: 13px; }
+  .who { font-weight: 600; color: var(--accent); text-decoration: none; }
+  .who:hover { text-decoration: underline; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 500;
+    padding: 2.5px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); }
+  .badge .ic { width: 10.5px; height: 10.5px; }
+  .badge.bnew { color: var(--pink); border-color: rgba(255,107,157,.45); background: rgba(255,107,157,.07); }
+  .badge.bhorse { color: var(--orange); border-color: rgba(240,163,63,.45); background: rgba(240,163,63,.07); }
+  .badge.bbait { color: var(--accent); border-color: rgba(94,161,255,.4); background: rgba(94,161,255,.07); }
+  .date { margin-left: auto; color: var(--faint); font-size: 11px; font-variant-numeric: tabular-nums; }
+
+  .nums { display: flex; gap: 6px; flex-wrap: wrap; }
+  .num { display: inline-flex; align-items: center; gap: 5px; background: #0c0f16;
+    border: 1px solid var(--border); border-radius: 9px; padding: 5px 9px;
+    font-size: 11px; color: var(--muted); }
+  .num .ic { width: 11.5px; height: 11.5px; }
+  .num b { font-family: var(--disp); color: var(--text); font-size: 12.5px; font-weight: 600;
+    font-variant-numeric: tabular-nums; }
+  .num.hot { border-color: rgba(255,122,77,.35); }
+  .num.hot .ic, .num.hot b { color: #ff7a4d; }
+  .num.x { border-color: rgba(240,163,63,.35); }
+  .num.x .ic, .num.x b { color: var(--orange); }
+  .num.er .ic, .num.er b { color: var(--green); }
+
+  .cap { color: var(--muted); font-size: 12.5px; line-height: 1.55; display: -webkit-box;
+    -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; cursor: pointer; }
+  .cap.open { -webkit-line-clamp: unset; }
+  .cap b { color: var(--text); font-weight: 600; }
+  .ai { border-left: 2px solid var(--orange); background: rgba(240,163,63,.06);
+    padding: 8px 11px; border-radius: 0 10px 10px 0; font-size: 12px; line-height: 1.65;
+    color: var(--muted); }
+  .ai b { color: var(--orange); font-weight: 600; }
+  .mine { border-left: 2px solid var(--green); background: rgba(63,214,143,.06);
+    padding: 8px 11px; border-radius: 0 10px 10px 0; font-size: 12px; line-height: 1.65;
+    color: var(--muted); cursor: pointer; display: -webkit-box; -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical; overflow: hidden; white-space: pre-wrap; }
+  .mine.open { -webkit-line-clamp: unset; }
+  .mine b { color: var(--green); font-weight: 600; }
+
+  .srow { display: flex; align-items: center; gap: 7px; }
+  .srow label { font-size: 12px; color: var(--faint); }
+  .status { flex: 1; padding: 6px 9px; font-size: 12.5px; }
+  .status.s未处理 { color: var(--muted); }
+  .status.s拍摄中 { color: var(--orange); border-color: rgba(240,163,63,.5); }
+  .status.s已处理 { color: var(--green); border-color: rgba(63,214,143,.5); }
+  .status.s跳过 { color: var(--red); border-color: rgba(255,92,92,.5); }
+  .abtn { display: inline-flex; align-items: center; gap: 5px; background: #0c0f16;
+    color: var(--muted); border: 1px solid var(--border); border-radius: 9px;
+    padding: 6px 10px; font-size: 11.5px; font-family: var(--font); cursor: pointer;
+    text-decoration: none; transition: color .18s, border-color .18s, transform .1s; }
+  .abtn .ic { width: 12px; height: 12px; }
+  .abtn:hover { color: var(--accent); border-color: rgba(94,161,255,.5); }
+  .abtn:active { transform: scale(.95); }
+
+  .more { text-align: center; margin: 28px 0 44px; }
+  .more button { background: var(--card); color: var(--accent); border: 1px solid var(--border);
+    border-radius: 12px; padding: 11px 30px; font-size: 14px; font-family: var(--font);
+    cursor: pointer; transition: border-color .18s, background .18s; }
+  .more button:hover { border-color: var(--border-hi); background: var(--card-hi); }
+
+  .empty { color: var(--faint); text-align: center; padding: 70px 0; display: flex;
+    flex-direction: column; align-items: center; gap: 12px; font-size: 14px; }
+  .empty .ic { width: 34px; height: 34px; stroke-width: 1.5; color: #2c3546; }
+
+  footer { color: var(--faint); font-size: 11px; text-align: center; padding: 22px; }
+
+  #toast { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(8px);
+    background: var(--card-hi); border: 1px solid var(--border-hi); border-radius: 11px;
+    padding: 11px 20px; font-size: 13px; display: none; z-index: 99; opacity: 0;
+    box-shadow: 0 12px 32px rgba(0,0,0,.5); transition: opacity .2s, transform .2s; }
+  #toast.show { display: block; opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M22 7l-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.5l7.1-.6z"/></symbol>
+  <symbol id="i-magnet" viewBox="0 0 24 24"><path d="m6 15-4-4 6.75-6.77a7.79 7.79 0 0 1 11 11L13 22l-4-4 6.39-6.36a2.14 2.14 0 0 0-3-3L6 15"/><path d="m5 8 4 4"/><path d="m12 15 4 4"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6"/><path d="M9 16h6"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><path d="m10 8 6 4-6 4Z"/><rect x="2" y="4" width="20" height="16" rx="3"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></symbol>
+  <symbol id="i-pct" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></symbol>
+</svg>
+<header>
+  <div class="hrow">
+    <div class="brand">
+      <div class="mark"><svg class="ic"><use href="#i-flame"/></svg></div>
+      <h1>Ann Courses<small id="updated"></small></h1>
+    </div>
+    <div class="search"><svg class="ic"><use href="#i-search"/></svg>
+      <input id="fSearch" placeholder="搜文案 / hashtag / 账号"></div>
+    <select id="fTracker"><option value="">全部 Tracker</option></select>
+    <select id="fComp"><option value="">全部 Competitor</option></select>
+    <select id="fSort">
+      <option value="x">按 爆款倍数 (vs 自家平均)</option>
+      <option value="score">按 Viral Score</option>
+      <option value="er">按 Engagement Rate</option>
+      <option value="comments">按 Comments</option>
+      <option value="likes">按 Likes</option>
+      <option value="date">按 最新日期</option>
+    </select>
+    <button class="btn" id="fVideo"><svg class="ic"><use href="#i-video"/></svg>只看视频</button>
+
+    <a class="btn" href="team.html" target="_top" title="工作台"><svg class="ic"><use href="#i-users"/></svg>工作台</a>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div class="chips" id="presets"></div>
+  <div class="chips" id="trends"></div>
+</header>
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none"><svg class="ic"><use href="#i-search"/></svg>没有符合条件的帖子</div>
+  <div class="more" id="moreWrap" style="display:none"><button id="moreBtn">载入更多</button></div>
+</main>
+<footer>数据来源 Supabase · 每周自动更新 · 状态更改即时同步全团队 · 视频由 Instagram 官方 embed 播放</footer>
+<div id="toast"></div>
+<script id="data" type="application/json">[{"id": "DehAjVvDz6T", "tracker": "Ann Courses 竞对", "competitor": "estoz.my", "caption": "「我算三声，再不交手机，以后都不准玩！」\n这句话，你是不是也说过？\n但后来，真的做到了吗？📱\n每天为了手机催、骂、吵，父母很累，孩子也越来越抗拒。\n下一次，可以先把约定谈清楚：\n▪️什么时候可以用？\n▪️可以用多久？\n▪️几点交回来？\n▪️没有遵守约定，会有什么后果？\n定下的规则，要合理，也要是自己做得到的。别等到生气了，才临时加重处罚。\n这支两分钟的分享，聊聊怎样把手机规矩说清楚、做下去。\n你家最难的是「定规矩」，还是「坚持执行」？留言聊聊👇\n#亲子沟通 #亲子教育 #手机使用 #育儿日常 #父母成长 #中文podcast", "transcript": "我算三聲你把手機交上來如果你不交你以後都不可以動手機很多時候為什麼父母沒有所謂的權威或者是影響力啊因為他講他沒有去做甚至他們在講的過程中有一些誇張的成分當父母講出一些自己執行不到的事情的時候他的偽言就會減落他對孩子講話就沒有影響力造成更多的講不停教不動的情況發生但是有一些東西我們可以做的就是先越法三章手機給出去之前先把整個遊戲規則說明白我給你是因為什麼原因我會給你用多久哪段時間你可以用哪段時間你要交出來這個是我們的viewOK嗎OK嗎Can you do it好接下來這個是我們的約定嘛那如果你違反當中的一些約定我會怎麼做比如手機沒收三天或者手機沒收多少天要先把這個東西先講清楚當他真的是沒有做到的時候要去執行不管什麼情況要去執行這個時候父母的權威才會被樹立起來不管給孩子設立什麼條規一定要先說明那個條規先做好約定觀察孩子的行為如果違規我們要執行什麼後果這個十年前跟十年後都是一樣的要先講如果給了出去過後再談很難談到了一定要在事前先做", "brk": "Hook类型: 痛点直击\n结构: 戳中育儿失控场景 → 揭示父母失去威信根源 → 给出事前约定与坚决执行的解法\n为什么火: 精准捕捉家长“管不住孩子玩手机”的普遍焦虑，给出高共鸣且可执行的沟通方法。\n改编角度: 卖课可针对“孩子沉迷电子产品/网课”痛点，设计《21天亲子沟通课》或家长教练营的引流钩子。", "my": "我数三声，你把广告费交上去了吗？如果你不交，你的课程永远都卖不出去！\n\n很多时候，为什么我们做讲师的没有所谓的影响力啊？\n\n因为我们每天在讲要怎么搞定客户，甚至在成交的现场有一些胡思乱当的成分。\n\n当导师讲出一些自己连系统都跑不到的销售漏斗的时候，他的说服力就会减弱，他对学员讲话就完全没有影响力，造成更多的流量进来了、课程却卖不动的状况发生。\n\n但是有一些东西我们可以做的，就是先做好自动化系统。\n\n流量进来到成交系统之前，先把整个卖课流程说明白。\n\n我卖这个课是因为什么原因，我会给你RM 9,888的陪跑服务，哪段时期你要自己做，哪段时期交给我来带，这个是我们的系统view，OK吗？Can you do it？\n\n好，接下来这个是我们的流程嘛，那如果你学员遇到卡点，我会有1v1 Zoom Support，或者把50+高级AI做课卖课团队的SOP拿出来，这个要先把这个东西先讲清楚。\n\n当学员真的是没有做到的时候要去执行，不管什么情况要去执行，这个时候我们的卖课系统才会真正跑起来。\n\n不管给课程设立什么成交模式，一定要先说明那个系统先做好约定，观察学员的行为，如果违规我们要执行什么后果。\n\n十年前跟十年后都是一样 的，要先讲，如果流量跑完了过后才谈，很难谈到了，一定要在事前先做。\n\n点击下方链接，了解我的AI百万卖课系统。", "tags": "亲子沟通, 亲子教育, 手机使用, 育儿日常, 父母成长, 中文podcast", "bait": true, "type": "Video", "likes": 19, "comments": 1, "er": 2.98, "followers": 672, "date": "2026-10-15", "url": "https://www.instagram.com/p/DehAjVvDz6T/", "video": true, "ratio": 0, "score": 3.27, "status": "未处理", "x": 1.5}, {"id": "DfCe6DmkcX6", "tracker": "Ann Courses 竞对", "competitor": "estoz.my", "caption": "新人第一天上班，你是不是也说过：\n「你先跟着同事学，有什么不懂就问。」 👀\n\n但新人可能连该问谁、怎样才算做好，都还不清楚。\n\n老板、HR 和行政，入职前先安排好这 3 件事👇\n\n✅ 公司规范\n公司做什么、重视什么，以及哪些行为可以接受、哪些不可以。\n\n✅ 汇报对象\n工作向谁汇报？遇到问题应该找谁？\n\n✅ 培训安排\n谁负责带新人？试用期需要学习什么？\n\n把这些交代清楚，新人才有方向，主管也更容易跟进。\n\n📌 收藏这支影片，下次新人入职前检查一次。\nFollow @estoz.my，每周三、五一起学习 HR 实用知识与案例。\n\n#HR实用课 #新人入职 #人力资源管理 #马来西亚HR #中小企业 #老板必看 #estoz", "transcript": "你員工一進來公司的時候你必須讓他知道說我們公司是做什麼的哪一個是我們考卷我們考卷是怎樣的然後控制到是什麼公司能夠接受怎樣的行為不能接受怎樣的行為到更新就是你的部門你會報告誰然後在訓練這個位置的時侯你的訓練誰會帶你們這些東西前面的時候你就要計劃的你不可能進來的時候你才突然間的訂單來的你去跟誰學這個然後還是覺得說你做這個東西不對就馬上跟指示點點這樣你去好還不如緊如果你去壞了直接那個員工明天就沒有來也許是零零他賠錢他也是走的因為我們現在很有條件", "brk": "Hook类型: 痛点直击\n结构: 戳中职场放任不管的痛点 → 抛出入职必做3件事 → 呼吁收藏并引导关注\n为什么火: 精准切中小企业老板和HR在新人入职培训上的管理盲区，提供即拿即用的解决方案。\n改编角度: 针对卖课业务，痛点可替换为学员上课后无人辅导，改编为“学员报课后必须马上做好的3件事”。", "my": "", "tags": "HR实用课, 新人入职, 人力资源管理, 马来西亚HR, 中小企业, 老板必看, estoz", "bait": false, "type": "Video", "likes": 12, "comments": 1, "er": 1.93, "followers": 672, "date": "2026-10-28", "url": "https://www.instagram.com/p/DfCe6DmkcX6/", "video": true, "ratio": 0, "score": 2.23, "status": "未处理", "x": 1.0}, {"id": "Deb23swEfND", "tracker": "Ann Courses 竞对", "competitor": "estoz.my", "caption": "刚出社会租房，真的不要什么都不懂就签。 🏠⚠️\n很多第一次出来租房的人，\n最容易觉得：\n“有房就先住。”\n“合约应该都差不多。”\n“房东讲什么就什么。”\n但 Ken 在 Podcast 里面讲得很直接：\n“如果什么都不知道的话，我也是最惨的啦。”\n因为你一签，可能就是一年。\n进去之后才发现：\n❌ 条件跟想象不一样\n❌ 有些东西根本没人提前讲\n❌ 不懂规则，只能一直吃亏\n❌ 甚至因为你刚出社会、什么都不会，被人当“社会小白”\nKen 也提到，他看过不少租客因为不懂，被欺骗、被欺负，最后还跟房东闹到 conflict。 9月23日 9月23日\n所以第一次租房，\n真的不要只看：\n“这间几多钱？”\n你更要看清楚：\n✅ 合约写什么\n✅ 房子的真实 condition\n✅ 有问题谁负责\n✅ 水电怎么算\n✅ House Rules 是什么\n✅ 有没有基本保障和记录\n不是每个房东都有问题，\n也不是每个租客都会吃亏。\n但当你什么都不懂，\n你就很容易变成最被动的那个。😵‍💫\n如果你身边有刚出社会、准备第一次租房的人，\n这支真的可以发给他。 📲\n🎧 更多真实房产、租房与 Property Management 内容\n关注 @estoz.my\n#ESTOZ #租房 #刚出社会 #租房避坑 #年轻人 #PropertyManagement #房东 #malaysiaproperty", "transcript": "因為你被騙的時候那時候是主客嘛然後後來你自己手足的時候有沒有發現一種情況原來防懂騙人的方式也是有另類的還是跟你當主被騙的時候是一樣其實來來去去就是一樣啦就是我們可以講是氣靈啊因為他們當這些主客是剛出來的時候會小白嗎什麼不會嗎可以是大靈囉欺騙他們啊或欺負他們等等的東西囉然後你有講過你有做過Tanlin有做過Landlord然後也做過MasterTanlinPoperty Management的也做過這樣子是一個角色裡面你覺得哪一個是讓你覺得最慘的其實都有Point and Con的啦如果我是一個Tanlin如果什麼都不知道的話我也是最慘的啦因為Makete有什麼啦老公簽了一年的合約進去有什麼的這些是什麼嗎那一種如果講我今天有經歷過一些平台去塞選好像ABA面這樣子有Five Star rating啊去塞選現在也不會壞到哪裡去了這樣它就是Enjoy整個Jeromey囉看不同的那個Position啦如果講今天我是房東我不會塞選我也看到Makete很多是這樣啊他不會塞選啦直接跑去Compress結果每一件都要倒貼錢的那個他就很痛苦囉但是有些會玩的他們沒有分享出來啦這樣檢概鈣息賺錢的每一件差不多18%到10%的好愛了檢概鈣收入子啊全部都免費放假等時間到我了起價我可以Flipp可以Mine這樣子你會建議Flipp好還是Refine那種如果說今天Flipp了過後你知道你的錢開獎用的話就Flipp好囉這些房東通常啦到後面會有Confid跟他Denner會有爭吵其實我覺得沒有必要的然後還有我們也會有依過給主客大靈那些主客他們就給一大半人來講電費貴啊等等的東西啊那天天可以亂啊然後我們是有賺有據的啦你要來亂亂多少錢都是一樣的我沒有賺你錢總之我說這個錢給DNP了就是給DNP我沒有多賺一腳錢反正東西都會有的都會有的", "brk": "Hook类型: 痛点直击\n结构: 戳中小白痛点 → 借大咖观点剖析 → 给出避坑清单\n为什么火: 精准切入社会小白租房盲区，引发强烈共鸣与转发欲\n改编角度: 针对小白学员的知识盲区，用过来人视角揭露行业隐性坑钱套路", "my": "为什么你用心录的课，放到网上根本没人买？\n\n你以为是自己的专业度不够，觉得是不是要把内容讲得更深奥，还是得花大钱投广告吸引流量。\n\n其实根本不是这样，真正的原因是你没有一套系统去帮你做课和自动成交。\n\n其实你可以这样做。\n\n第一，用对 AI 工具来帮你做课。你只要花一点时间把自己的经验整理出来，让系统帮你规划大纲和内容，省下自己盲目摸索的时间，做出一门有市场的课程。\n\n第二，搞懂怎样写文案来吸引客户。不要每天自己在那边瞎猜客户要什么，用对方法写出直击痛点的文案，把对的人吸引进来。\n\n第三，建立自动跟进系统。当潜在客户进来的时候，让系统帮你做自动化跟进和成交，不用每天自己手忙脚乱去私信回复。\n\n以前你可能什么事都要自己扛，从做课、写文案到跟进客户全部自己来，结果花钱投广告客户进来就跑。\n\n用对系统之后，你可以把这些繁琐的流程自动化，把时间留给真正重要的事情。\n\n现在就点击主页链接，报名参加免费 3 小时公开课，了解怎样用系统帮你做课和卖课。", "tags": "ESTOZ, 租房, 刚出社会, 租房避坑, 年轻人, PropertyManagement, 房东, malaysiaproperty", "bait": false, "type": "Video", "likes": 13, "comments": 0, "er": 1.93, "followers": 672, "date": "2026-10-13", "url": "https://www.instagram.com/p/Deb23swEfND/", "video": true, "ratio": 0, "score": 1.93, "status": "未处理", "x": 0.9}, {"id": "DeimFXlBJZ6", "tracker": "Ann Courses 竞对", "competitor": "huihuilek", "caption": "7,000 of you! 🎉❤️\n\nWe just crossed 7,000 followers on Instagram!\n\nIs it a massive number? Not in the world of social media.\n\nBut imagine 7,000 people sitting in a room, choosing to listen to what you have to say.\n\nSuddenly, it doesn’t feel so small anymore. 🥰\n\nEvery single follower represents a real person. Someone with dreams, ambitions, struggles, and a story of their own.\n\nAnd the fact that 7,000 of you have chosen to be part of our little corner of the internet means something to me.\n\nBecause I’ve never wanted to build an audience just for the sake of having an audience.\n\nI’ve always wanted to build a movement.\n\nA movement of coaches, experts, and entrepreneurs who are willing to do the inner work, find their voice, share their wisdom, and create extraordinary impact in the world.\n\nSo today, we’re celebrating 7,000!\n\nThank you for being here, for reading, watching, commenting, sharing, and growing with us.\n\nHere’s to the next 7,000, and more importantly, to the lives we get to touc", "transcript": "", "brk": "Hook类型: 身份共鸣\n结构: 里程碑感谢 → 重构认知(从数字到真人) → 愿景升华(建运动) → 互动呼吁\n为什么火: 真诚复盘打破冷冰冰的粉丝数，用“一屋子听众”的具象化比喻建立强烈的深度情感连接。\n改编角度: 借粉丝突破节点，将小体量粉丝转化为铁粉社群，顺势推出社群或训练营课程。", "my": "7000个人坐在台下听你讲课，这个画面其实一点都不小。\n\n很多讲师以为做知识付费，非得先花大钱去投广告，或者每个月砸几万块，才能开始卖课。\n\n其实根本不是这样，你卡住只是因为用错了方法，把简单的事情搞复杂了。\n\n第一，用AI做课，不用你自己熬夜写大纲。把你的经验喂给AI，系统自动帮你想好课程结构，省下几个礼拜的备课时间。\n\n第二，用AI写文案，不用坐在电脑前发呆。一键生成高转化贴文，直接发到Instagram和Facebook吸引粉丝。\n\n第三，用自动化系统帮你跟进，不用每天手动回私信。潜在客户进来之后，系统自动帮你跑完整个成交流程。\n\n以前你一个人扛所有事，拍视频、写文案、回私信累到半死，每个月收入卡在3千到3万。\n\n用对系统之后，你可以把时间花在真正擅长的事情上，让AI帮你搞定繁琐的自动化流程。\n\n现在点击主页链接，马上了解InfiniteSales AI系统。", "tags": "", "bait": false, "type": "Image", "likes": 39, "comments": 26, "er": 0.66, "followers": 9876, "date": "2026-10-16", "url": "https://www.instagram.com/p/DeimFXlBJZ6/", "video": false, "ratio": 0, "score": 1.18, "status": "未处理", "x": 3.1}, {"id": "DdJdGQriZMm", "tracker": "Ann Courses 竞对", "competitor": "huihuilek", "caption": "Finally in Bali!! 😍🌊\n\nAfter all the travelling, speaking and working on new projects these past few months, I’ve really been looking forward to slowing down a little.\n\nThis is where we’ll be staying and I’m sooo happy! We have a pool, the beach is literally right outside, good food… honestly, what else do I need?\n\nWe’ll see where Bali takes us. We only planned the first few nights of this trip because sometimes it’s nice NOT to have every single thing scheduled 😅\n\nFor now, I’m just enjoying the sea, the food, the quiet time and having nowhere I need to rush to. ❤️\n\nMore Bali adventures coming soon!!\n\nAre you the type who plans EVERY detail of your holiday, or do you also like figuring it out when you get there? 😂👇", "transcript": "Where will we stay for the next three days? I'm just coming here. I'm just so happy. So there's a pool here. There's a beach that we can access right outside here. And tomorrow morning we're going to go dolphin watching. We're going to go skiing. This is our dinner.", "brk": "Hook类型: 身份共鸣\n结构: 抵达度假地 → 晒环境与行程 → 抛出互动提问\n为什么火: 展示令人向往的松弛感生活方式，引发观众对理想状态的向往与评论互动\n改编角度: 结合搞钱或学习副业，展示“边旅行边赚钱”的自由状态来吸引渴望改变的用户", "my": "你想靠做课月入RM 3k到30k，其实根本不需要自己熬夜剪视频 lah。\n\n很多讲师以为，要卖课就必须每天拍短视频、写几千字文案，还要自己一个一个回复私信 meh？\n\n其实不是这样的，真正能自动成交的人，靠的是用 AI 系统帮你在后台跑流程。\n\n第一个方法，用 AI 帮你三分钟搞定大纲。你只需要把你的专业经验输进去软件里，AI 就会自动帮你顺好整个课程结构，不用你自己坐在电脑前面发呆想半天。\n\n第二个方法，用系统自动发文案。不需要每天手动去贴文，把你的卖点放进自动化工具里面，它就会帮你定时发布，让有需要的客户自己跑来找你。\n\n第三个方法，用 CRM 帮跟进客户。当有人问起价钱的时候，系统会自动帮你发资料，不用你亲自一个个去 WhatsApp 敲他们，省下超多时间。\n\n以前做知识付费，全部东西都要自己一个人扛，从写大纲到跟进客户搞到半夜，累到完全没有时间休息。\n\n用对 AI 做课系统以后，不仅省下大量时间，还能让整套流程自动运作，每天轻松很多。\n\n如果你也想用 AI 帮自己省下时间，点击主页链接报名我们的免费 3 小时公开课，我们直播见 loh。", "tags": "", "bait": false, "type": "Video", "likes": 31, "comments": 18, "er": 0.5, "followers": 9876, "date": "2026-09-11", "url": "https://www.instagram.com/p/DdJdGQriZMm/", "video": true, "ratio": 0, "score": 0.86, "status": "未处理", "x": 2.3}, {"id": "De1ml6YC92e", "tracker": "Ann Courses 竞对", "competitor": "huihuilek", "caption": "I used to think if people stopped watching my Reels after a few seconds, I just needed a better hook 😅\n\nSo naturally, I kept changing the first line. Shorter hook. More curiosity. Different wording. Then I’d post again and… people were STILL dropping off 😂\n\nWhat I realised was that sometimes the hook isn’t actually the problem.\n\nYou can get someone to stop scrolling, but then you still have to give them a reason to KEEP watching. If the next 10 seconds are just the exact same shot of you talking to the camera, even a really good opening can lose people.\n\nNow I pay much more attention to what happens AFTER the hook. A cut, a zoom, a different angle, text on screen, B-roll… just something that keeps the Reel visually moving without making it feel over-edited. \n\nAnd this is especially useful for coaches because most of our content IS us talking and teaching. You don’t need to suddenly become an entertainer 😜 You just need to make it easier for someone to stay with you long enough to hear ", "transcript": "", "brk": "Hook类型: 痛点直击\n结构: 戳中痛点 → 错误认知 → 揭示真相 → 给出解法\n为什么火: 道出创作者视频留存低的真实原因，引发强烈共鸣。\n改编角度: 针对卖课IP，强调光靠好文案不够，还需视觉节奏留住学员。", "my": "以前我以为只要前三秒的钩子够狠，短视频就一定能爆lah。\n\n很多人以为，只要换掉第一句话，或者搞个更刺激的悬念，流量就会自动飙升meh。\n\n其实根本不是这么一回事loh。\n\n真正让大家划走的，往往不是你的钩子不好，而是你开头抓了人进来，后面却给不出让人继续看下去的理由。\n\n如果你从头到尾对着镜头讲足一分钟，画面一点变化都没有，再厉害的开头也留不住人。\n\n要想搞定这个情况，我有三个方法可以用。\n\n第一个方法，调整剪辑节奏。\n\n你每隔三秒到五秒，就要加一个镜头切换、画面放大，或者换一个拍摄角度。\n\n这样可以随时刺激观众的视觉，让他们觉得画面一直在动，不会觉得闷。\n\n第二个方法，善用画面和文字。\n\n你在讲重点的时候，一定要配上大号的字幕，或者穿插一些相关的视频素材和图片。\n\n这样就算观众静音看，也能一眼看懂你在讲什么，完播率自然就上去了。\n\n第三个方法，把你的整个卖课流程自动化。\n\n你可以用 InfiniteSales AI 系统，直接把你的获客和成交流程全部搭好。\n\n这样你不用每天花几个小时自己扛所有事情，系统会帮你自动跟进客户。\n\n以前做知识付费，所有的东西都要自己一个人慢慢摸索，搞到最后每天累得要死，又赚不到钱。\n\n用对 AI 做课卖课的方法以后，你不仅能省下大量的时间，还能让整个做课卖课的流程自动跑起来。\n\n如果你也想用 AI 帮自己做课卖课，点击主页链接报名我们的免费 3 小时公开课了解看看。", "tags": "", "bait": false, "type": "Video", "likes": 12, "comments": 10, "er": 0.22, "followers": 9876, "date": "2026-10-23", "url": "https://www.instagram.com/p/De1ml6YC92e/", "video": true, "ratio": 0, "score": 0.43, "status": "未处理", "x": 1.1}, {"id": "Dd_m-Runzpb", "tracker": "Ann Courses 竞对", "competitor": "huihuilek", "caption": "Posting content can feel soooo awkward when you’re trying to sound like what you think an “expert” is supposed to sound like 😅\n\nEspecially if you’ve spent years in corporate or built deep expertise in your field, you probably have a whole vocabulary that makes perfect sense to YOU. Then you bring that same language online and suddenly your content sounds more like a presentation than an actual conversation 😂\n\nAnd that’s usually when posting starts to feel fake.\n\nYou don’t need a different personality for social media. You don’t need complicated words to prove you know what you’re talking about. And you definitely don’t need to copy the way another coach communicates just because their content is doing well.\n\nThe people you want to help should be able to land on your page and quickly think, “Ohhh, this person understands what I’m struggling with.”\n\nThat kind of clarity builds trust much faster than trying to sound impressive. 👏\n\nSo if you’ve been overthinking what to say, swipe through ", "transcript": "", "brk": "Hook类型: 痛点直击\n结构: 戳中专家形象尴尬 → 拆穿假大空误区 → 给出简单化解信任方案\n为什么火: 精准切中专业人士转做自媒体时“端着不敢说话”的心理防御机制\n改编角度: 针对华人学员“做内容怕露怯/总想秀专业”的痛点，主推接地气转化法", "my": "拍视频想假装成专家，结果讲出来的话meh，你自己听了都起鸡皮疙瘩对不对？\n\n你是不是以为，做课卖课一定要用很高深的专业术语，或者花大钱请人来包装，才能显得自己很专业？\n\n其实根本不用。你拍不出单，不是因为你不够专业，是因为你的课程和文案，离你的客户太远了。\n\n第一，用 AI 帮你的课程大纲重新梳理。把那些闷死人的行业黑话，换成你学员听得懂的日常语言，让你的课程结构清晰到小白看一眼就会。\n\n第二，用 AI 帮你写出接地气的短视频文案。每天花十几分钟，把你的专业经验变成大家愿意听的故事，不用自己坐在那边抓破头皮想。\n\n第三，搭建一套自动化的卖课系统。从自动回复到私信成交，让系统帮你在后台跑，不用每天自己一个一个去跟客户聊到深夜。\n\n以前你做一堂课，从大纲到文案再到发广告，全部自己一个人扛，累得要死还卖不出几份。\n\n现在用 InfiniteSales AI 系统，只要跟着里面的 50 多个 SOP 和 1v1 支撑，新手也能顺顺把课做出来。\n\n如果你也想用 AI 帮你在线上顺畅做课卖课，点击我主页的链接，先去报名参加我们的免费公开课了解看看。", "tags": "", "bait": false, "type": "Carousel", "likes": 15, "comments": 6, "er": 0.21, "followers": 9876, "date": "2026-10-02", "url": "https://www.instagram.com/p/Dd_m-Runzpb/", "video": false, "ratio": 0, "score": 0.33, "status": "未处理", "x": 0.9}, {"id": "DfFDi6qC7hA", "tracker": "Ann Courses 竞对", "competitor": "huihuilek", "caption": "I wonder how many people have slowly stopped doing the things they once loved because life got in the way.\r\n\r\nYou get busy building your career, taking care of your family, meeting everyone’s expectations, and doing what needs to be done. And somewhere along the way, you start putting your own dreams aside.\r\n\r\nSometimes for so long that you almost forget what used to make you excited about life. ❤️\r\n\r\nI’ve met so many incredible people who have achieved so much in their careers, but deep down, they know there’s still something MORE they want to do.\r\n\r\nMaybe it’s starting that business they’ve been thinking about for years. Maybe it’s sharing their experience to help others. Or maybe it’s simply giving themselves permission to explore a different chapter of life.\r\n\r\nAnd I think that takes courage.\r\n\r\nBecause when you’ve spent years being the responsible one, doing what’s expected and following a certain path, choosing something different can feel scary.\r\n\r\nBut pls remember, you haven’t ", "transcript": "", "brk": "Hook类型: 身份共鸣\n结构: 现实无奈 → 唤醒初心 → 给予赋能\n为什么火: 精准击中成年人为生活妥协却心有不甘的心理防御\n改编角度: 结合课程切入点，痛陈为家庭放弃自我后，用知识改变命运重拾梦想", "my": "多少人明明有一肚子专业经验，却因为每天忙着帮客户解决问题，最后连自己想做的课都搁置了呢？\n你每天都在忙着做项目、对付琐事，把所有人的需求放在第一位。\n结果忙到最后，你想把经验整理成课程的梦想，却一年拖过一年。\n你可能觉得，做课一定要先辞职，或者花大笔钱找团队。\n其实根本不是这样的，你缺的不是时间，是一套能帮你省时间的系统。\n用 AI 来帮你搞定整个流程，其实一点都不难。\n第一步，用 AI 帮你规划课程大纲。把你的经验输入进去，系统几分钟就能帮你理出完整的模块，不用自己对着空白文档发愁。\n第二步，用 AI 帮你的内容落地。写文案、做大纲、排版全部交给工具，省下你大量卡壳的时间，一个人也能轻松搞定。\n第三步，把你的卖课流程自动化。从搭建落地页到客户进来的自动跟进，全部用系统跑通，不用每天花几个小时手动回复。\n以前你一个人扛下所有事，从做课到写文案累得半死，最后投了广告客户进来就跑。\n学会用 AI 做课卖课以后，你不仅能把专业经验变成课程，还能让整个成交流程自动跑起来。\n如果你也想突破目前的卡点，点击主页链接报名免费的 3 小时公开课，我们直播间见吧。", "tags": "", "bait": false, "type": "Video", "likes": 25, "comments": 2, "er": 0.27, "followers": 9876, "date": "2026-10-29", "url": "https://www.instagram.com/p/DfFDi6qC7hA/", "video": true, "ratio": 0, "score": 0.31, "status": "未处理", "x": 0.8}, {"id": "Dd1OziWCXmS", "tracker": "Ann Courses 竞对", "competitor": "huihuilek", "caption": "People will always have opinions, and most of them have nothing to do with you anyway.\n\nYou can’t manage what’s out of your control, but you can decide how you live.\n\nI learned this the long way.\nThe moment I stopped shaping my life around other people’s reactions, I got my power back.\nClarity returned. Purpose followed. And everything felt lighter.\n\nThis is your life. Your calling. Your mission.\nAre you living it for them… or for you? 😅\n\nIf this hit home, comment READY. Choosing courage over approval changes everything 🚀", "transcript": "I'm gonna warn ya Ooh, that you think she is so cool Picking back on your couch again, I swear to God it's through", "brk": "Hook类型: 身份共鸣\n结构: 指出他人评价不可控 → 分享个人觉醒转变 → 呼吁为自己而活并引导评论\n为什么唤醒: 直面他人眼光的心理痛点，引发海外华人对精神内耗与自我解放的情感共鸣。\n改编角度: 结合海外华人面临的文化冲突与家庭期待，切入“摆脱他人眼光活出自我”的认知课程。", "my": "我警告你 lah，别再一个人扛到深夜了 meh。\n\n你以为做课程、卖课程就是要天天熬夜，自己剪视频、自己回私信、自己搞定所有技术，对不对 loh。\n\n其实不是 meh，你只是被那些繁琐的工具和手动流程绑住了，根本没有把时间花在真正赚钱的内容上。\n\n第一，用 AI 帮你做课程大纲 lah。你只要把专业经验输入进去，系统几分钟就能帮你生成一整套结构完整的课程内容，不用每天对着空白屏幕发愁。\n\n第二，用自动化系统帮你跑客户 meh。不管是私信回复还是表单收集，让系统 24 小时帮你跟进，不用花时间一个个去敲键盘。\n\n第三，用现成的 8 位数销售流程 lah。直接把别人验证过的成交漏斗和 PPT 拿来用，不用自己从零开始摸索，省下大把时间去服务客户。\n\n以前你做一门课要几个月，所有事情都自己一个人扛，累到怀疑人生，连广告费花出去都没人跟进。\n现在用 AI 和自动化系统来跑，从做课到卖课都有 SOP 帮你在后台自动搞定，整个流程顺畅很多。\n\n如果你想了解怎么用 AI 帮你的课程业务自动化，现在就点击主页链接，去报名我们的免费公开课 lah。", "tags": "", "bait": true, "type": "Video", "likes": 19, "comments": 3, "er": 0.22, "followers": 9876, "date": "2026-09-28", "url": "https://www.instagram.com/p/Dd1OziWCXmS/", "video": true, "ratio": 0, "score": 0.28, "status": "未处理", "x": 0.7}]</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const SUPA = 'https://bndevlszjvevyzcgzpop.supabase.co';
+const ANON = 'sb_publishable_uce4El_DrtsGUDX8qiTUqg_rLaOpuRH';
+const STATUSES = ["未处理", "拍摄中", "已处理", "跳过"];
+document.getElementById('updated').textContent = '更新于 2026-11-09 15:36 (GMT+8)';
+const PAGE = 48;
+let shown = PAGE;
+let videoOnly = false;
+let curTab = '全部';
+
+const $ = id => document.getElementById(id);
+const fmt = n => n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : String(n);
+const getKey = () => ANON;  // anon key is baked in — safe, can only change status
+const I = n => '<svg class="ic"><use href="#i-' + n + '"/></svg>';
+const esc = s => String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const byRec = {}; DATA.forEach(d => byRec[d.id] = d);
+const TRENDS = [];
+DATA.forEach(d => {
+  d.days = d.date ? Math.max(0, Math.floor((Date.now() - new Date(d.date + 'T00:00:00')) / 864e5)) : null;
+  d.horse = d.followers > 0 && d.followers < 50000 && ((d.x || 0) >= 2 || d.score >= 10);
+});
+const PRESETS = [
+  { k: 'px', icon: 'trend', label: '真爆款 ×2+', f: d => (d.x || 0) >= 2 },
+  { k: 'pn', icon: 'star', label: '近7天', f: d => d.days !== null && d.days <= 7 },
+  { k: 'ph', icon: 'zap', label: '黑马', f: d => d.horse },
+  { k: 'pb', icon: 'magnet', label: '引流帖', f: d => d.bait },
+];
+const presetOn = {};
+
+function toast(msg, ok) {
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  t.style.borderColor = ok ? 'var(--green)' : 'var(--red)';
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// filters
+const comps = [...new Set(DATA.map(d => d.competitor))].sort();
+comps.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = '@'+c; $('fComp').appendChild(o); });
+[...new Set(DATA.map(d => d.tracker))].forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; $('fTracker').appendChild(o); });
+
+function matchQ(d) {
+  const q = ($('fSearch').value || '').trim().toLowerCase();
+  return !q || (d.caption + ' ' + (d.tags || '') + ' ' + (d.transcript || '') + ' ' + (d.brk || '') + ' ' + d.competitor).toLowerCase().includes(q);
+}
+
+function basePool() {
+  const t = $('fTracker').value, c = $('fComp').value;
+  return DATA.filter(d => (!t || d.tracker === t) && (!c || d.competitor === c) && (!videoOnly || d.video)
+    && matchQ(d) && PRESETS.every(p => !presetOn[p.k] || p.f(d)));
+}
+
+function filtered() {
+  const s = $('fSort').value;
+  let arr = basePool().filter(d => curTab === '全部' || d.status === curTab);
+  const key = { score:'score', er:'er', comments:'comments', likes:'likes', x:'x' }[s];
+  if (s === 'date') arr.sort((a,b) => (b.date||'').localeCompare(a.date||''));
+  else arr.sort((a,b) => (b[key]||0) - (a[key]||0));
+  return arr;
+}
+
+let dragRec = null;
+
+function renderTabs() {
+  const pool = basePool();
+  const counts = { '全部': pool.length };
+  STATUSES.forEach(s => counts[s] = pool.filter(d => d.status === s).length);
+  $('tabs').innerHTML = '';
+  ['全部', ...STATUSES].forEach(name => {
+    const el = document.createElement('div');
+    el.className = 'tab' + (curTab === name ? ' on' : '') + (name !== '全部' ? ' droppable' : '');
+    el.innerHTML = esc(name) + ' <span class="cnt">' + counts[name] + '</span>';
+    el.onclick = () => { curTab = name; shown = PAGE; render(); };
+    if (name !== '全部') {
+      el.ondragover = e => { if (dragRec) { e.preventDefault(); el.classList.add('over'); } };
+      el.ondragleave = () => el.classList.remove('over');
+      el.ondrop = e => {
+        e.preventDefault(); el.classList.remove('over');
+        const d = byRec[dragRec]; dragRec = null;
+        if (d && d.status !== name) setStatus(d, name);
+      };
+    }
+    $('tabs').appendChild(el);
+  });
+}
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target, pid = el.dataset.pid;
+      if (!el.querySelector('iframe')) {
+        const f = document.createElement('iframe');
+        f.src = 'https://www.instagram.com/p/' + pid + '/embed/';
+        f.loading = 'lazy'; f.allow = 'autoplay; encrypted-media';
+        el.appendChild(f);
+      }
+      io.unobserve(el);
+    }
+  });
+}, { rootMargin: '400px' });
+
+async function setStatus(d, val) {
+  try {
+    const r = await fetch(SUPA + '/rest/v1/posts?post_id=eq.' + encodeURIComponent(d.id), {
+      method: 'PATCH',
+      headers: { 'apikey': ANON, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ status: val })
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    d.status = val;
+    cacheStatus(d.id, val);
+    toast('✓ @' + d.competitor + ' 已移到「' + val + '」', true);
+  } catch (e) {
+    toast('更新失败: ' + e.message + (String(e.message).includes('401') || String(e.message).includes('403') ? ' — 密钥无效?' : ''), false);
+  }
+  render();
+}
+
+function card(d, idx) {
+  const el = document.createElement('div');
+  el.className = 'card' + ((d.x || 0) >= 2 ? ' outlier' : '');
+  el.style.animationDelay = Math.min(idx % PAGE, 14) * 30 + 'ms';
+  el.draggable = true;
+  el.ondragstart = e => {
+    dragRec = d.id;
+    e.dataTransfer.effectAllowed = 'move';
+    el.classList.add('lifting');
+    document.body.classList.add('dragging');
+  };
+  el.ondragend = () => {
+    el.classList.remove('lifting');
+    document.body.classList.remove('dragging');
+    dragRec = null;
+  };
+  const typeIcon = d.video ? 'video' : (d.type === 'Carousel' ? 'layers' : 'image');
+  const days = d.days, horse = d.horse;
+  const ago = days === null ? '' : (days === 0 ? '今天' : days + '天前');
+  const lines = (d.caption || '').split('\n').map(l => l.trim()).filter(Boolean);
+  const hook = lines[0] || '';
+  const tr = (d.transcript && d.transcript !== '(转录失败)' && d.transcript !== '(无口播内容)') ? d.transcript : '';
+  el.innerHTML = `
+    <div class="embed" data-pid="${d.id}"><div class="ph"><svg class="ic"><use href="#i-${typeIcon}"/></svg></div></div>
+    <div class="meta">
+      <div class="row1">
+        <span class="handle" title="拖到上方 tab 即可归类">${I('grip')}</span>
+        <a class="who" href="https://www.instagram.com/${d.competitor}/" target="_blank">@${d.competitor}</a>
+        <span class="badge">${d.type || '-'}</span>
+        ${days !== null && days <= 7 ? '<span class="badge bnew">' + I('star') + '新帖</span>' : ''}
+        ${horse ? '<span class="badge bhorse">' + I('zap') + '黑马</span>' : ''}
+        ${d.bait ? '<span class="badge bbait" title="「留言XX」引流打法 — 评论被引流放大,漏斗设计值得学">' + I('magnet') + '引流</span>' : ''}
+        <span class="date" title="${d.date || ''}">${ago}</span>
+      </div>
+      <div class="nums">
+        <span class="num hot" title="Viral Score">${I('flame')}<b>${d.score}</b></span>
+        ${(d.x || 0) >= 2 ? '<span class="num x" title="是自家平均热度的多少倍">' + I('trend') + '<b>×' + d.x + '</b></span>' : ''}
+        <span class="num er" title="Engagement Rate">${I('pct')}<b>${d.er}%</b></span>
+        <span class="num" title="Likes">${I('heart')}<b>${d.likes > 0 ? fmt(d.likes) : '隐藏'}</b></span>
+        <span class="num" title="Comments">${I('msg')}<b>${fmt(d.comments)}</b></span>
+        <span class="num" title="Followers">${I('users')}<b>${fmt(d.followers)}</b></span>
+      </div>
+      <div class="cap" onclick="this.classList.toggle('open')"></div>
+      ${d.brk ? '<div class="ai" onclick="this.classList.toggle(&quot;open&quot;)"></div>' : ''}
+      ${d.my ? '<div class="mine" onclick="this.classList.toggle(&quot;open&quot;)"></div>' : ''}
+      <div class="srow"><label>状态</label><select class="status btn s${d.status}"></select>
+        <button class="abtn copy" title="复制完整文案">${I('copy')}文案</button>
+        ${tr ? '<button class="abtn mic" title="复制视频口播逐字稿">' + I('mic') + '口播</button>' : ''}
+        ${d.my ? '<button class="abtn minec" title="复制我的改写口播稿(可直接拍)">' + I('mic') + '我的稿</button>' : ''}
+        <button class="abtn brief" title="复制拍摄 Brief(数据+Hook+AI拆解+我的稿+口播稿+文案)">${I('clip')}Brief</button>
+        <a class="abtn" href="${d.url}" target="_blank" title="打开 Instagram 原帖">${I('ext')}</a></div>
+    </div>`;
+  const capEl = el.querySelector('.cap');
+  const restTxt = lines.slice(1).join('\n');
+  capEl.innerHTML = hook ? '<b>' + esc(hook) + '</b>' + (restTxt ? '<br>' + esc(restTxt).replace(/\n/g, '<br>') : '') : '';
+  const aiEl = el.querySelector('.ai');
+  if (aiEl) aiEl.innerHTML = '<b>💡 AI 拆解</b><br>' + esc(d.brk).split(String.fromCharCode(10)).join('<br>');
+  const myEl = el.querySelector('.mine');
+  if (myEl) myEl.innerHTML = '<b>🎬 我的版本(可直接拍)</b><br>' + esc(d.my).split(String.fromCharCode(10)).join('<br>');
+  const sel = el.querySelector('.status');
+  STATUSES.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o); });
+  sel.value = d.status;
+  sel.onchange = () => setStatus(d, sel.value);
+  el.querySelector('.copy').onclick = () =>
+    navigator.clipboard.writeText(d.caption || '').then(() => toast('✓ 文案已复制', true));
+  const micBtn = el.querySelector('.mic');
+  if (micBtn) micBtn.onclick = () =>
+    navigator.clipboard.writeText(tr).then(() => toast('✓ 口播稿已复制', true));
+  const mineBtn = el.querySelector('.minec');
+  if (mineBtn) mineBtn.onclick = () =>
+    navigator.clipboard.writeText(d.my).then(() => toast('✓ 我的改写稿已复制', true));
+  el.querySelector('.brief').onclick = () => {
+    const NL = String.fromCharCode(10);
+    const parts = ['🎬 爆款参考 @' + d.competitor + ((d.x || 0) >= 2 ? '(自家平均 ×' + d.x + ')' : ''),
+      '📊 🔥' + d.score + ' | ER ' + d.er + '% | ❤️ ' + (d.likes > 0 ? fmt(d.likes) : '隐藏') +
+      ' | 💬 ' + fmt(d.comments) + ' | 👥 ' + fmt(d.followers) + (ago ? ' | ' + ago : ''),
+      '🔗 ' + d.url, '✍️ Hook: ' + hook];
+    if (d.brk) parts.push('——— AI 拆解 ———', d.brk);
+    if (d.my) parts.push('——— 我的版本(可直接拍)———', d.my);
+    if (tr) parts.push('——— 竞对原口播稿 ———', tr);
+    parts.push('——— 完整文案 ———', d.caption || '');
+    navigator.clipboard.writeText(parts.join(NL)).then(() => toast('✓ Brief 已复制,可直接发给拍摄/剪辑', true));
+  };
+  io.observe(el.querySelector('.embed'));
+  return el;
+}
+
+function render() {
+  renderTabs();
+  const arr = filtered();
+  const grid = $('grid'); grid.innerHTML = '';
+  arr.slice(0, shown).forEach((d, i) => grid.appendChild(card(d, i)));
+  $('empty').style.display = arr.length ? 'none' : '';
+  $('moreWrap').style.display = arr.length > shown ? '' : 'none';
+}
+
+
+function applyStatusCache() {
+  try {
+    const c = JSON.parse(localStorage.getItem('st_cache') || '{}');
+    Object.keys(c).forEach(rid => { const d = byRec[rid]; if (d) d.status = c[rid]; });
+  } catch (e) {}
+}
+
+function cacheStatus(rid, val) {
+  try {
+    const c = JSON.parse(localStorage.getItem('st_cache') || '{}');
+    c[rid] = val; localStorage.setItem('st_cache', JSON.stringify(c));
+  } catch (e) {}
+}
+
+// live status refresh (so weekly-baked page shows current statuses)
+async function refreshStatuses() {
+  applyStatusCache(); render();  // last-known statuses first
+  if (Date.now() - (+localStorage.getItem('st_ts') || 0) < 600000) return;  // 10-min throttle
+  localStorage.setItem('st_ts', String(Date.now()));
+  const fresh = {};
+  try {
+    const r = await fetch(SUPA + '/rest/v1/posts?select=post_id,status', { headers: { 'apikey': ANON } });
+    if (!r.ok) return;
+    (await r.json()).forEach(row => {
+      const d = byRec[row.post_id];
+      if (d) d.status = row.status || '未处理';
+      if (row.status && row.status !== '未处理') fresh[row.post_id] = row.status;
+    });
+    localStorage.setItem('st_cache', JSON.stringify(fresh));
+    render();
+  } catch (e) {}
+}
+
+['fTracker','fComp','fSort'].forEach(id => $(id).onchange = () => { shown = PAGE; render(); });
+$('fSearch').oninput = () => { shown = PAGE; render(); };
+$('fVideo').onclick = () => { videoOnly = !videoOnly; $('fVideo').classList.toggle('on', videoOnly); shown = PAGE; render(); };
+$('moreBtn').onclick = () => { shown += PAGE; render(); };
+
+// preset quick filters
+$('presets').innerHTML = '<span class="lbl">快筛</span>';
+PRESETS.forEach(p => {
+  const c = document.createElement('span'); c.className = 'chip2';
+  c.innerHTML = I(p.icon) + esc(p.label);
+  c.onclick = () => { presetOn[p.k] = !presetOn[p.k]; c.classList.toggle('on', presetOn[p.k]); shown = PAGE; render(); };
+  $('presets').appendChild(c);
+});
+
+// trending hashtags among outlier posts
+if (TRENDS.length) {
+  $('trends').innerHTML = '<span class="lbl">爆款热词</span>';
+  TRENDS.forEach(([tag, n]) => {
+    const c = document.createElement('span'); c.className = 'chip2';
+    c.textContent = '#' + tag + ' ' + n;
+    c.onclick = () => { $('fSearch').value = $('fSearch').value === tag ? '' : tag; shown = PAGE; render(); };
+    $('trends').appendChild(c);
+  });
+} else { $('trends').style.display = 'none'; }
+
+render();
+refreshStatuses();
+</script>
+</body>
+</html>
